@@ -14,7 +14,7 @@ const Navbar = ({ hidden = false }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ⛔ Saat hidden, jangan render apa pun
+  //  Saat hidden, jangan render apa pun
   if (hidden) return null;
 
   return (
@@ -22,7 +22,7 @@ const Navbar = ({ hidden = false }) => {
       {/* Logo */}
       <div className="logo">
         <h1 className="text-3xl font-bold text-white p-1 md:bg-transparent md:text-white">
-          Portofolio
+          Portofolio.
         </h1>
       </div>
 

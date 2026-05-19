@@ -229,9 +229,9 @@ export const listProyek = [
   {
     id: 6,
     image: Proyek6,
-    title: "Coffee Shop Website",
-    subtitle: "A fully functional website designed for a coffee shop, enabling...",
-    fullDescription:"A fully functional website designed for a coffee shop, enabling customers to explore the menu, learn about the shop’s story, and place orders online. The project focused on creating an attractive and modern interface, integrating responsive design for mobile and desktop, and ensuring smooth navigation for users. This website not only improved customer experience but also supported the coffee shop’s digital presence and business growth.",
+    title: "Portfolio Website",
+    subtitle: "This portfolio website is a personal web project...",
+    fullDescription:"This portfolio website is a personal web project built to showcase my profile, skills, projects, organizational experience, and contact information in a modern and interactive way. Developed using React, Vite, Tailwind CSS, and several animation libraries, the website features responsive design, animated text, interactive project cards, organization experience details, and a 3D lanyard element. This project demonstrates my ability to create visually appealing, user-friendly, and responsive web applications while combining frontend development, UI design, and interactive components.",
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
     url: "https://github.com/rissss21",

@@ -195,11 +195,15 @@ function App() {
               handle="pradz7"
               status="Online"
               contactText="Contact Me"
-              avatarUrl="./assets/faris.png"
+              avatarUrl="./assets/Prad.png"
               showUserInfo={true}
               enableTilt={true}
               enableMobileTilt={false}
-              onContactClick={() => console.log("Contact clicked")}
+              onContactClick={() => {
+                document.getElementById("contact")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
             />
           </div>
         </div>
