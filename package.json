@@ -15,7 +15,7 @@
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
     "@react-three/rapier": "^2.1.0",
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/vite": "^4.3.0",
     "animate.css": "^4.1.1",
     "aos": "^3.0.0-beta.6",
     "firebase": "^12.13.0",
@@ -29,7 +29,7 @@
     "react-icons": "^5.5.0",
     "remixicon": "^4.6.0",
     "tailwind-scrollbar-hide": "^4.0.0",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.3.0",
     "three": "^0.167.1"
   },
   "devDependencies": {
