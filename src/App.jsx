@@ -118,13 +118,13 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Home */}
-        <div className="hero grid md:grid-cols-2 items-center pt-10 xl:gap-0 gap-6 grid-cols-1">
+        <div className="hero grid md:grid-cols-2 items-center pt-10 md:pt-20 xl:gap-0 gap-10 grid-cols-1">
           <div className="animate__animated animate__fadeInUp animate__delay-3s">
             <div className="flex items-center gap-3 mb-6 bg bg-zinc-800 w-fit p-4 rounded-2xl">
               <q>Start now, perfect later.</q>
             </div>
 
-            <h1 className="text-5xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
               <ShinyText
                 text="Hi I'm Made Mas Pradnya Prabawa"
                 disabled={false}
@@ -138,14 +138,14 @@ function App() {
               delay={150}
               animateBy="words"
               direction="top"
-              className="mb-6"
+              className="mb-6 text-sm sm:text-base md:text-lg"
             />
 
-            <div className="flex items-center sm:gap-4 gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:gap-4 gap-3">
               <a
                 href="./assets/CV_Made Mas Pradnya Prabawa.pdf"
                 download="CV_Made Mas Pradnya Prabawa.pdf"
-                className="font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors"
+                className="w-full sm:w-auto text-center font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors"
               >
                 <ShinyText
                   text="Download CV"
@@ -157,7 +157,7 @@ function App() {
 
               <a
                 href="#project"
-                className="font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors"
+                className="w-full sm:w-auto text-center font-semibold bg-[#1a1a1a] p-4 px-6 rounded-full border border-gray-700 hover:bg-[#222] transition-colors"
               >
                 <ShinyText
                   text="Explore My Experience"
@@ -169,7 +169,7 @@ function App() {
             </div>
           </div>
 
-          <div className="md:ml-auto animate__animated animate__fadeInUp animate__delay-4s">
+          <div className="w-full flex justify-center md:justify-end md:ml-auto animate__animated animate__fadeInUp animate__delay-4s scale-90 sm:scale-100">
             <ProfileCard
               name="Pradnya P"
               title="Web Developer"
@@ -191,11 +191,12 @@ function App() {
 
         {/* About */}
         <div
-          className="mt-15 mx-auto w-full max-w-[1600px] rounded-3xl border-[5px] border-violet-500/40 shadow-[0_0_30px_rgba(168,85,247,0.4)] bg-gradient-to-br from-[#0a0a0a] via-[#111111] to-[#1a1a1a] p-6"
+          ref={aboutRef}
+          className="mt-20 mx-auto w-full max-w-[1600px] rounded-3xl border-2 md:border-[5px] border-violet-500/40 shadow-[0_0_30px_rgba(168,85,247,0.4)] bg-gradient-to-br from-[#0a0a0a] via-[#111111] to-[#1a1a1a] p-4 md:p-6 overflow-hidden"
           id="about"
         >
           <div
-            className="flex flex-col md:flex-row items-center justify-between gap-10 pt-0 px-8"
+            className="flex flex-col md:flex-row items-center justify-between gap-10 pt-0 px-2 md:px-8"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-once="true"
@@ -207,11 +208,11 @@ function App() {
                 </h2>
 
                 <BlurText
-                  text="I’m a second year Informatics student specializing in Artificial Intelligence, passionate about developing modern, efficient, and user friendly digital solutions. I enjoy working with technologies such as Artificial Intelligence, Machine Learning, full stack web development, and database systems while continuously improving my problem solving and technical skills. I have experience building web based applications, working with computer vision and object detection projects, as well as integrating AI models into interactive systems. With strong adaptability, creativity, and a passion for learning new technologies, I’m currently seeking internship opportunities to gain hands on industry experience, contribute to impactful projects, and grow as an AI focused developer in the digital era. "
+                  text="I’m a second year Informatics student specializing in Artificial Intelligence, with skills in web development, machine learning, database systems, and computer vision. I enjoy building user friendly digital products and integrating AI into real applications. I’m currently seeking internship opportunities to gain industry experience, contribute to impactful projects, and grow as an AI focused developer."
                   delay={150}
                   animateBy="words"
                   direction="top"
-                  className="text-base md:text-lg leading-relaxed mb-10 text-gray-300"
+                  className="text-sm sm:text-base md:text-lg leading-relaxed mb-8 text-gray-300"
                 />
 
                 <div className="flex flex-col sm:flex-row items-center sm:justify-between text-center sm:text-left gap-y-8 sm:gap-y-0 mb-4 w-full">
@@ -251,7 +252,7 @@ function App() {
               </div>
             </div>
 
-            <div className="basis-full md:basis-5/12 pl-0 md:pl-8 overflow-hidden max-w-full flex justify-center">
+            <div className="hidden md:flex basis-full md:basis-5/12 pl-0 md:pl-8 overflow-hidden max-w-full justify-center">
               <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
             </div>
           </div>
@@ -260,7 +261,7 @@ function App() {
         {/* Tools & Technologies */}
         <div className="tools mt-32">
           <h1
-            className="text-4xl/snug font-bold mb-4"
+            className="text-3xl sm:text-4xl/snug font-bold mb-4"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-once="true"
@@ -269,7 +270,7 @@ function App() {
           </h1>
 
           <p
-            className="w-2/5 text-base/loose opacity-50"
+            className="w-full md:w-2/5 text-base/loose opacity-50"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-delay="300"
@@ -314,7 +315,7 @@ function App() {
         {/* Showcase */}
         <div className="showcase mt-32 py-10" id="project">
           <h1
-            className="text-center text-4xl font-bold mb-2"
+            className="text-center text-3xl sm:text-4xl font-bold mb-2"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-once="true"
@@ -335,7 +336,7 @@ function App() {
 
           {/* Showcase Buttons */}
           <div
-            className="flex justify-center gap-4 mt-10"
+            className="flex flex-col sm:flex-row justify-center gap-4 mt-10"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-delay="400"
@@ -343,7 +344,7 @@ function App() {
           >
             <button
               onClick={() => setActiveShowcase("project")}
-              className={`font-semibold p-4 px-8 rounded-full border transition-all duration-300 cursor-pointer ${
+              className={`w-full sm:w-auto font-semibold p-4 px-8 rounded-full border transition-all duration-300 cursor-pointer ${
                 activeShowcase === "project"
                   ? "bg-violet-500 border-violet-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)]"
                   : "bg-[#1a1a1a] border-gray-700 hover:bg-[#222]"
@@ -354,7 +355,7 @@ function App() {
 
             <button
               onClick={() => setActiveShowcase("organization")}
-              className={`font-semibold p-4 px-8 rounded-full border transition-all duration-300 cursor-pointer ${
+              className={`w-full sm:w-auto font-semibold p-4 px-8 rounded-full border transition-all duration-300 cursor-pointer ${
                 activeShowcase === "organization"
                   ? "bg-violet-500 border-violet-400 text-white shadow-[0_0_20px_rgba(168,85,247,0.5)]"
                   : "bg-[#1a1a1a] border-gray-700 hover:bg-[#222]"
@@ -393,7 +394,7 @@ function App() {
                 <div
                   key={org.id}
                   onClick={() => handleOrganizationClick(org)}
-                  className="relative cursor-pointer p-6 rounded-2xl border border-violet-500/40 bg-zinc-900/70 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] hover:-translate-y-1 transition-all duration-300"
+                  className="relative cursor-pointer p-5 sm:p-6 rounded-2xl border border-violet-500/40 bg-zinc-900/70 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] hover:-translate-y-1 transition-all duration-300"
                   data-aos="fade-up"
                   data-aos-duration="1000"
                   data-aos-delay={400 + index * 100}
@@ -403,7 +404,7 @@ function App() {
 
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                      <h2 className="text-2xl font-bold text-white mb-2">
+                      <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
                         {org.title}
                       </h2>
 
@@ -413,7 +414,7 @@ function App() {
 
                       <p className="text-sm text-zinc-400 mb-4">{org.year}</p>
 
-                      <p className="text-zinc-300 leading-relaxed">
+                      <p className="text-zinc-300 leading-relaxed text-sm sm:text-base">
                         {org.description}
                       </p>
                     </div>
@@ -427,7 +428,7 @@ function App() {
         {/* Contact */}
         <div className="kontak mt-32 sm:p-10 p-0" id="contact">
           <h1
-            className="text-4xl mb-2 font-bold text-center"
+            className="text-3xl sm:text-4xl mb-2 font-bold text-center"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-once="true"
@@ -447,7 +448,7 @@ function App() {
 
           <div className="flex flex-col md:flex-row gap-8">
             <div
-              className="flex-1 bg-zinc-800 p-6 rounded-md"
+              className="flex-1 bg-zinc-800 p-4 sm:p-6 rounded-md"
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="400"
@@ -460,7 +461,7 @@ function App() {
               <form
                 action="https://formsubmit.co/pradprbw@gmail.com"
                 method="POST"
-                className="bg-zinc-800 p-10 w-full rounded-md"
+                className="bg-zinc-800 p-5 sm:p-10 w-full rounded-md"
                 autoComplete="off"
                 data-aos="fade-up"
                 data-aos-duration="1000"
@@ -528,7 +529,7 @@ function App() {
       {/* Organization Detail Modal */}
       {selectedOrg && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
-          <div className="relative w-full max-w-2xl rounded-3xl border border-violet-500/40 bg-zinc-900 p-6 shadow-[0_0_40px_rgba(168,85,247,0.4)]">
+          <div className="relative w-full max-w-2xl rounded-3xl border border-violet-500/40 bg-zinc-900 p-5 sm:p-6 shadow-[0_0_40px_rgba(168,85,247,0.4)]">
             <button
               onClick={handleCloseOrganizationModal}
               className="absolute top-4 right-5 z-20 text-zinc-400 hover:text-white text-2xl cursor-pointer"
@@ -537,7 +538,7 @@ function App() {
             </button>
 
             {/* Organization Image Slider */}
-            <div className="relative w-full h-64 mb-6 rounded-2xl overflow-hidden bg-zinc-800">
+            <div className="relative w-full h-52 sm:h-64 mb-6 rounded-2xl overflow-hidden bg-zinc-800">
               <img
                 src={selectedOrg.images[selectedImageIndex]}
                 alt={selectedOrg.title}
@@ -577,7 +578,7 @@ function App() {
               )}
             </div>
 
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               {selectedOrg.title}
             </h2>
 
@@ -587,7 +588,7 @@ function App() {
 
             <p className="text-sm text-zinc-400 mb-5">{selectedOrg.year}</p>
 
-            <p className="text-zinc-300 leading-relaxed">
+            <p className="text-zinc-300 leading-relaxed text-sm sm:text-base">
               {selectedOrg.description}
             </p>
           </div>
