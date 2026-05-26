@@ -173,12 +173,12 @@ export const listTools = [
 ];
 
 // Project Images
-import Proyek1 from "/assets/project/EcoScan.png";
-import Proyek2 from "/assets/project/TrainWise.png";
-import Proyek3 from "/assets/project/Reviewly.png";
-import Proyek4 from "/assets/project/Night-Inspection.png";
-import Proyek5 from "/assets/project/Lumina-AI.png";
-import Proyek6 from "/assets/project/Portofolio.png";
+import Proyek1 from "/assets/project/ecoscan.png";
+import Proyek2 from "/assets/project/trainwise.png";
+import Proyek3 from "/assets/project/reviewly.png";
+import Proyek4 from "/assets/project/night-inspection.png";
+import Proyek5 from "/assets/project/lumina-ai.png";
+import Proyek6 from "/assets/project/portofolio.png";
 
 // Project Data
 export const listProyek = [
