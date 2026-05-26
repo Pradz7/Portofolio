@@ -37,9 +37,7 @@ function App() {
       title: "PUMA Informatics",
       role: "Head of Relations and Communication Division",
       year: "2025 - Present",
-      images: [
-        "./assets/organization/puma1.png",
-      ],
+      images: ["./assets/organization/puma1.png"],
       description:
         "Led the department by supervising division members, coordinating communication strategies, and ensuring all events and work plans were executed effectively and professionally. This role enhanced my leadership, communication, organizational, and problem-solving skills while contributing to the success of various events and initiatives within the organization.",
     },
@@ -48,9 +46,7 @@ function App() {
       title: "PUMA Informatics",
       role: "Member of External Relations Division",
       year: "2024 - 2025",
-      images: [
-        "./assets/organization/puma2.png",
-      ],
+      images: ["./assets/organization/puma2.png"],
       description:
         "Served as the Vice Project Manager for the Informatics Connect event and took responsibility as a Person in Charge in more than four various events. This experience strengthened my leadership, team coordination, communication, responsibility, and problem solving skills.",
     },
@@ -88,17 +84,6 @@ function App() {
       prev === selectedOrg.images.length - 1 ? 0 : prev + 1
     );
   };
-
-  // Reset to base URL when page reloads
-  useEffect(() => {
-    const isReload =
-      performance.getEntriesByType("navigation")[0]?.type === "reload";
-
-    if (isReload) {
-      const baseUrl = window.location.origin + "/";
-      window.location.replace(baseUrl);
-    }
-  }, []);
 
   // About section observer
   useEffect(() => {
@@ -290,7 +275,7 @@ function App() {
             data-aos-delay="300"
             data-aos-once="true"
           >
-            My Profesional Skills
+            My Professional Skills
           </p>
 
           <div className="tools-box mt-14 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
