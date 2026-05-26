@@ -163,12 +163,12 @@ export const listTools = [
   },
 ];
 
-import Proyek1 from "/assets/proyek/proyek1.jpg";
-import Proyek2 from "/assets/proyek/proyek2.jpg";
-import Proyek3 from "/assets/proyek/proyek3.jpg";
-import Proyek4 from "/assets/proyek/proyek4.jpg";
-import Proyek5 from "/assets/proyek/proyek5.jpg";
-import Proyek6 from "/assets/proyek/proyek6.jpg";
+import Proyek1 from "/assets/project/proyek1.jpg";
+import Proyek2 from "/assets/project/proyek2.jpg";
+import Proyek3 from "/assets/project/proyek3.jpg";
+import Proyek4 from "/assets/project/proyek4.jpg";
+import Proyek5 from "/assets/project/proyek5.jpg";
+import Proyek6 from "/assets/project/portofolio.png";
 
 export const listProyek = [
   {
