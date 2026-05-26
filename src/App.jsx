@@ -38,9 +38,7 @@ function App() {
       role: "Head of Relations and Communication Division",
       year: "2025 - Present",
       images: [
-        "./assets/puma1.png",
-        "./assets/puma2.png",
-        "./assets/puma3.png",
+        "./assets/organization/puma1.png",
       ],
       description:
         "Led the department by supervising division members, coordinating communication strategies, and ensuring all events and work plans were executed effectively and professionally. This role enhanced my leadership, communication, organizational, and problem-solving skills while contributing to the success of various events and initiatives within the organization.",
@@ -51,9 +49,7 @@ function App() {
       role: "Member of External Relations Division",
       year: "2024 - 2025",
       images: [
-        "./assets/puma4.png",
-        "./assets/puma5.png",
-        "./assets/puma6.png",
+        "./assets/organization/puma2.png",
       ],
       description:
         "Served as the Vice Project Manager for the Informatics Connect event and took responsibility as a Person in Charge in more than four various events. This experience strengthened my leadership, team coordination, communication, responsibility, and problem solving skills.",
