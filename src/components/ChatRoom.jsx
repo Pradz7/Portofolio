@@ -12,19 +12,22 @@ export default function ChatRoom() {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [chatError, setChatError] = useState("");
   const messagesEndRef = useRef(null);
 
-  // cek login
+  // auth listener
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
+      console.log("AUTH USER:", u);
     });
-
     return () => unsub();
   }, []);
 
-  // ambil semua pesan realtime
+  // realtime messages listener
   useEffect(() => {
+    setChatError("");
+
     const unsub = onSnapshot(
       collection(db, "messages"),
       (snapshot) => {
@@ -33,29 +36,36 @@ export default function ChatRoom() {
           ...doc.data(),
         }));
 
-        // urutkan dari paling lama ke paling baru
+        // urutkan aman walau createdAt belum ada
         data.sort((a, b) => {
-          const aTime = a.createdAt?.seconds || 0;
-          const bTime = b.createdAt?.seconds || 0;
+          const aTime =
+            a.createdAt?.seconds ??
+            (a.createdAt?.toDate ? a.createdAt.toDate().getTime() / 1000 : 0);
+
+          const bTime =
+            b.createdAt?.seconds ??
+            (b.createdAt?.toDate ? b.createdAt.toDate().getTime() / 1000 : 0);
+
           return aTime - bTime;
         });
 
+        console.log("MESSAGES FROM FIRESTORE:", data);
         setMessages(data);
       },
       (error) => {
-        console.error("Error loading messages:", error);
+        console.error("Firestore read error:", error);
+        setChatError(error.message || "Failed to load messages");
       }
     );
 
     return () => unsub();
   }, []);
 
-  // auto scroll ke bawah kalau ada pesan baru
+  // auto scroll bawah
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // kirim pesan
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -68,7 +78,7 @@ export default function ChatRoom() {
 
     const newMessage = message.trim();
 
-    // kosongkan input langsung setelah klik send
+    // langsung kosongkan input
     setMessage("");
 
     try {
@@ -79,12 +89,12 @@ export default function ChatRoom() {
         photoURL: user.photoURL || "",
         createdAt: serverTimestamp(),
       });
-    } catch (error) {
-      console.error("Error sending message:", error);
 
-      // kalau gagal, balikin text ke input supaya tidak hilang
-      setMessage(newMessage);
-      alert("Gagal mengirim pesan");
+      console.log("Message sent:", newMessage);
+    } catch (error) {
+      console.error("Send error:", error);
+      setMessage(newMessage); // balikin text kalau gagal
+      alert("Gagal mengirim pesan: " + error.message);
     }
   };
 
@@ -94,7 +104,6 @@ export default function ChatRoom() {
         Chat Room
       </h2>
 
-      {/* Header user */}
       {user && (
         <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-3">
           <div className="flex items-center gap-3 min-w-0">
@@ -117,11 +126,16 @@ export default function ChatRoom() {
         </div>
       )}
 
-      {/* Area pesan - semua orang bisa lihat */}
       <div className="h-72 overflow-y-auto border border-gray-700 p-3 rounded-lg bg-zinc-800 mb-4 space-y-3">
+        {chatError && (
+          <div className="mb-3 rounded-lg bg-red-500/20 border border-red-500 p-2 text-sm text-red-300">
+            Firestore error: {chatError}
+          </div>
+        )}
+
         {messages.length === 0 ? (
           <p className="text-gray-400 text-sm text-center mt-4">
-            Belum ada pesan
+            There are no messages yet. Be the first to send a message!
           </p>
         ) : (
           messages.map((msg) => {
@@ -170,7 +184,6 @@ export default function ChatRoom() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Bagian bawah */}
       {user ? (
         <form
           onSubmit={sendMessage}

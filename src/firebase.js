@@ -1,9 +1,8 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithPopup,
+ signInWithPopup,
   signOut,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -17,13 +16,14 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+console.log("Firebase config loaded:", firebaseConfig);
+
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 
 export const loginWithGoogle = () => signInWithPopup(auth, provider);
 export const logout = () => signOut(auth);
-
-export const db = getFirestore(app);
