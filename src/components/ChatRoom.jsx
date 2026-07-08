@@ -14,7 +14,7 @@ export default function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
-  // Cek login
+  // cek login
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
@@ -23,7 +23,7 @@ export default function ChatRoom() {
     return () => unsub();
   }, []);
 
-  // Ambil pesan realtime
+  // ambil semua pesan realtime
   useEffect(() => {
     const unsub = onSnapshot(
       collection(db, "messages"),
@@ -33,7 +33,7 @@ export default function ChatRoom() {
           ...doc.data(),
         }));
 
-        // sort manual biar aman kalau ada data lama / createdAt null
+        // urutkan dari paling lama ke paling baru
         data.sort((a, b) => {
           const aTime = a.createdAt?.seconds || 0;
           const bTime = b.createdAt?.seconds || 0;
@@ -41,44 +41,49 @@ export default function ChatRoom() {
         });
 
         setMessages(data);
-        console.log("Loaded messages:", data);
       },
       (error) => {
-        console.error("Firestore snapshot error:", error);
+        console.error("Error loading messages:", error);
       }
     );
 
     return () => unsub();
   }, []);
 
-  // Auto scroll ke bawah saat ada pesan baru
+  // auto scroll ke bawah kalau ada pesan baru
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Kirim pesan
+  // kirim pesan
   const sendMessage = async (e) => {
     e.preventDefault();
 
     if (!user) {
-      alert("Silakan login dulu");
+      alert("Login dulu untuk mengirim pesan");
       return;
     }
 
     if (!message.trim()) return;
 
+    const newMessage = message.trim();
+
+    // kosongkan input langsung setelah klik send
+    setMessage("");
+
     try {
       await addDoc(collection(db, "messages"), {
-        text: message.trim(),
+        text: newMessage,
         uid: user.uid,
         displayName: user.displayName || "Anonymous",
         photoURL: user.photoURL || "",
         createdAt: serverTimestamp(),
       });
-
-      setMessage("");
     } catch (error) {
-      console.error("Send message error:", error);
+      console.error("Error sending message:", error);
+
+      // kalau gagal, balikin text ke input supaya tidak hilang
+      setMessage(newMessage);
       alert("Gagal mengirim pesan");
     }
   };
@@ -86,7 +91,7 @@ export default function ChatRoom() {
   return (
     <div className="bg-zinc-900 border border-gray-700 p-6 rounded-xl shadow-lg max-w-xl mx-auto mt-5">
       <h2 className="text-2xl font-bold text-center mb-4 text-white">
-        💬 Chat Room
+        Chat Room
       </h2>
 
       {/* Header user */}
@@ -112,7 +117,7 @@ export default function ChatRoom() {
         </div>
       )}
 
-      {/* Area pesan */}
+      {/* Area pesan - semua orang bisa lihat */}
       <div className="h-72 overflow-y-auto border border-gray-700 p-3 rounded-lg bg-zinc-800 mb-4 space-y-3">
         {messages.length === 0 ? (
           <p className="text-gray-400 text-sm text-center mt-4">
@@ -165,7 +170,7 @@ export default function ChatRoom() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Form login / kirim pesan */}
+      {/* Bagian bawah */}
       {user ? (
         <form
           onSubmit={sendMessage}
@@ -198,7 +203,9 @@ export default function ChatRoom() {
             />
             Login with Google
           </button>
-          <p className="text-sm text-gray-400">Login untuk mengirim pesan</p>
+          <p className="text-sm text-gray-400">
+            Login to send a message.
+          </p>
         </div>
       )}
     </div>
