@@ -1,64 +1,111 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { auth, loginWithGoogle, logout, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   addDoc,
   onSnapshot,
-  query,
-  orderBy,
-  serverTimestamp
+  serverTimestamp,
 } from "firebase/firestore";
 
 export default function ChatRoom() {
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
   // Cek login
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+    });
+
     return () => unsub();
   }, []);
 
-  // Ambil pesan real-time
+  // Ambil pesan realtime
   useEffect(() => {
-    const q = query(collection(db, "messages"), orderBy("createdAt"));
-    const unsub = onSnapshot(q, (snapshot) => {
-      setMessages(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    });
+    const unsub = onSnapshot(
+      collection(db, "messages"),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // sort manual biar aman kalau ada data lama / createdAt null
+        data.sort((a, b) => {
+          const aTime = a.createdAt?.seconds || 0;
+          const bTime = b.createdAt?.seconds || 0;
+          return aTime - bTime;
+        });
+
+        setMessages(data);
+        console.log("Loaded messages:", data);
+      },
+      (error) => {
+        console.error("Firestore snapshot error:", error);
+      }
+    );
+
     return () => unsub();
   }, []);
+
+  // Auto scroll ke bawah saat ada pesan baru
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   // Kirim pesan
   const sendMessage = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      alert("Silakan login dulu");
+      return;
+    }
+
     if (!message.trim()) return;
 
-    await addDoc(collection(db, "messages"), {
-      text: message,
-      uid: user.uid,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      createdAt: serverTimestamp()
-    });
-    setMessage("");
+    try {
+      await addDoc(collection(db, "messages"), {
+        text: message.trim(),
+        uid: user.uid,
+        displayName: user.displayName || "Anonymous",
+        photoURL: user.photoURL || "",
+        createdAt: serverTimestamp(),
+      });
+
+      setMessage("");
+    } catch (error) {
+      console.error("Send message error:", error);
+      alert("Gagal mengirim pesan");
+    }
   };
 
   return (
     <div className="bg-zinc-900 border border-gray-700 p-6 rounded-xl shadow-lg max-w-xl mx-auto mt-5">
-      <h2 className="text-2xl font-bold text-center mb-4 text-white">💬 Chat Room</h2>
+      <h2 className="text-2xl font-bold text-center mb-4 text-white">
+        💬 Chat Room
+      </h2>
 
       {/* Header user */}
       {user && (
         <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-3">
-          <div className="flex items-center gap-3">
-            <img src={user.photoURL} alt="avatar" className="w-10 h-10 rounded-full" />
-            <span className="text-white font-semibold">{user.displayName}</span>
+          <div className="flex items-center gap-3 min-w-0">
+            <img
+              src={user.photoURL || "https://via.placeholder.com/40"}
+              alt="avatar"
+              className="w-10 h-10 rounded-full shrink-0"
+            />
+            <span className="text-white font-semibold truncate">
+              {user.displayName || "User"}
+            </span>
           </div>
+
           <button
             onClick={logout}
-            className="bg-red-600 px-4 py-1 rounded-full text-white hover:bg-red-700"
+            className="bg-red-600 px-4 py-1 rounded-full text-white hover:bg-red-700 shrink-0"
           >
             Logout
           </button>
@@ -67,42 +114,63 @@ export default function ChatRoom() {
 
       {/* Area pesan */}
       <div className="h-72 overflow-y-auto border border-gray-700 p-3 rounded-lg bg-zinc-800 mb-4 space-y-3">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex gap-2 ${msg.uid === user?.uid ? "justify-end" : "justify-start"}`}
-          >
-            {msg.uid !== user?.uid && (
-              <img
-                src={msg.photoURL || "https://via.placeholder.com/40"}
-                alt="avatar"
-                className="w-8 h-8 rounded-full"
-              />
-            )}
-            <div
-              className={`p-3 rounded-lg max-w-[75%] ${
-                msg.uid === user?.uid
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-700 text-white"
-              }`}
-            >
-              <div className="text-xs opacity-70 mb-1">{msg.displayName}</div>
-              <div>{msg.text}</div>
-            </div>
-            {msg.uid === user?.uid && (
-              <img
-                src={msg.photoURL || "https://via.placeholder.com/40"}
-                alt="avatar"
-                className="w-8 h-8 rounded-full"
-              />
-            )}
-          </div>
-        ))}
+        {messages.length === 0 ? (
+          <p className="text-gray-400 text-sm text-center mt-4">
+            Belum ada pesan
+          </p>
+        ) : (
+          messages.map((msg) => {
+            const isOwnMessage = msg.uid === user?.uid;
+
+            return (
+              <div
+                key={msg.id}
+                className={`flex gap-2 ${
+                  isOwnMessage ? "justify-end" : "justify-start"
+                }`}
+              >
+                {!isOwnMessage && (
+                  <img
+                    src={msg.photoURL || "https://via.placeholder.com/40"}
+                    alt="avatar"
+                    className="w-8 h-8 rounded-full self-end shrink-0"
+                  />
+                )}
+
+                <div
+                  className={`p-3 rounded-lg max-w-[75%] break-words ${
+                    isOwnMessage
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-700 text-white"
+                  }`}
+                >
+                  <div className="text-xs opacity-70 mb-1">
+                    {msg.displayName || "Unknown User"}
+                  </div>
+                  <div>{msg.text || ""}</div>
+                </div>
+
+                {isOwnMessage && (
+                  <img
+                    src={msg.photoURL || "https://via.placeholder.com/40"}
+                    alt="avatar"
+                    className="w-8 h-8 rounded-full self-end shrink-0"
+                  />
+                )}
+              </div>
+            );
+          })
+        )}
+
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Form login / kirim pesan */}
       {user ? (
-        <form onSubmit={sendMessage} className="flex gap-2 flex-wrap sm:flex-nowrap w-full">
+        <form
+          onSubmit={sendMessage}
+          className="flex gap-2 flex-wrap sm:flex-nowrap w-full"
+        >
           <input
             type="text"
             value={message}
